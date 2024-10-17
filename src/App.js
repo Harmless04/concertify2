@@ -1,10 +1,8 @@
-// src/App.js
-// src/App.js
 import React from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Login from './components/Login';       
 import Register from './components/Register';
-import Booking from './components/Booking';
+import Booking from './components/Booking';  // Your booking component (ConcertBooking)
 import './App.css';
 
 function App() {
@@ -43,7 +41,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />  {/* Route for the dedicated login page */}
         <Route path="/register" element={<Register />} />
-        <Route path="/booking" element={<Booking />} />
+        <Route path="/booking" element={<Booking />} /> {/* Route for Booking page */}
       </Routes>
     </div>
   );

@@ -1,106 +1,69 @@
-import { useEffect, useState } from 'react';
-import supabase from '../supabaseClient';
+import React, { useState, useEffect } from 'react';
+//import { bookTickets } from './utils/supabaseService'; // Import your ticket booking function
+//import { supabase } from './utils/supabaseService';  // Supabase client
+import { supabase, bookTickets } from '../utils/supabaseService';
 
-function Booking() {
-  const [concerts, setConcerts] = useState([]); // To store concerts from the database
-  const [quantity, setQuantity] = useState(1); // For ticket quantity
-  const [selectedConcert, setSelectedConcert] = useState(null); // To store selected concert
-  const [error, setError] = useState(null); // To handle errors
-  const [loading, setLoading] = useState(true); // To handle loading state
 
-  // Fetch concerts from the database
+const Booking = () => {
+  const [concerts, setConcerts] = useState([]);
+  const [selectedConcert, setSelectedConcert] = useState(null);
+  const [numberOfTickets, setNumberOfTickets] = useState(1);
+
   useEffect(() => {
+    // Fetch the concerts list from Supabase
     const fetchConcerts = async () => {
-      setLoading(true);
-      const { data, error } = await supabase.from('concerts').select('*');
-      console.log('Fetched concerts:', data); // Debugging log
-      console.log('Error fetching concerts:', error); // Debugging log
+      const { data, error } = await supabase
+        .from('concerts')
+        .select('*');
 
-      if (error) {
-        setError(error.message);
-      } else {
-        setConcerts(data || []); // Set the concert data to the state
-      }
-      setLoading(false);
+      if (error) console.error('Error fetching concerts:', error);
+      else setConcerts(data);
     };
+
     fetchConcerts();
   }, []);
 
-  const handleBooking = async () => {
-    // Retrieve user data from localStorage
-    const user_id = localStorage.getItem('user_id');
-    const user_name = localStorage.getItem('user_name');
-
-    // Check if the user is logged in by confirming presence of user_id
-    if (!user_id) {
-      setError('You need to log in to book a concert.');
-      return;
-    }
-
-    // Ensure a concert is selected
-    if (!selectedConcert) {
-      setError('Please select a concert.');
-      return;
-    }
-
-    // Insert booking into Supabase
-    const { data, error: bookingError } = await supabase.from('bookings').insert({
-      user_id, // Use the user ID from localStorage
-      concert_id: selectedConcert,
-      quantity,
-      booked_at: new Date(), // This will use the current date/time
-    });
-
-    if (bookingError) {
-      setError(bookingError.message);
+  const handleBookTickets = async () => {
+    if (selectedConcert) {
+      await bookTickets(selectedConcert.id, numberOfTickets);  // Book the tickets for the selected concert
     } else {
-      alert(`Booking successful for ${user_name}!`);
-      console.log('Booking details:', data);
-      // Reset the state after successful booking
-      setQuantity(1);
-      setSelectedConcert(null);
+      console.log('No concert selected');
     }
   };
 
   return (
     <div>
-      <h2>Book a Concert</h2>
-      {loading ? (
-        <p>Loading concerts...</p>
-      ) : concerts.length > 0 ? (
-        <>
-          <label htmlFor="concerts">Select a concert:</label>
-          <select
-            id="concerts"
-            onChange={(e) => setSelectedConcert(e.target.value)}
-            value={selectedConcert || ''} // Setting a default value
-          >
-            <option value="" disabled>Select a concert</option> {/* Placeholder */}
-            {concerts.map((concert) => (
-              <option key={concert.id} value={concert.id}>
-                {concert.title} - {concert.artist}
-              </option>
-            ))}
-          </select>
-          <br />
-          <label htmlFor="quantity">Ticket Quantity:</label>
-          <input
-            id="quantity"
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            placeholder="Ticket Quantity"
-            min="1"
-          />
-          <br />
-          <button onClick={handleBooking}>Book Now</button>
-        </>
-      ) : (
-        <p>No concerts available at the moment.</p>
-      )}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <h1>Book Your Tickets</h1>
+
+      {/* Display available concerts in a dropdown */}
+      <select
+        value={selectedConcert ? selectedConcert.id : ''}
+        onChange={(e) =>
+          setSelectedConcert(concerts.find((concert) => concert.id === Number(e.target.value)))
+        }
+      >
+        <option value="" disabled>Select a concert</option>
+        {concerts.map((concert) => (
+          <option key={concert.id} value={concert.id}>
+            {concert.artist} at {concert.venue} on {new Date(concert.event_date).toDateString()}
+          </option>
+        ))}
+      </select>
+
+      {/* Input to select the number of tickets */}
+      <input
+        type="number"
+        value={numberOfTickets}
+        onChange={(e) => setNumberOfTickets(Number(e.target.value))}
+        min="1"
+        placeholder="Number of tickets"
+      />
+
+      {/* Button to book tickets */}
+      <button onClick={handleBookTickets}>Book Tickets</button>
     </div>
   );
-}
+};
 
 export default Booking;
+
