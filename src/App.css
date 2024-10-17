@@ -1,0 +1,54 @@
+/* src/App.css */
+.app-container {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  text-align: center;
+  padding: 20px;
+}
+
+.parallax {
+  background-image: url('https://contactconcertify.wixsite.com/home'); /* Replace with a real image URL */
+  height: 300px;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.app-heading {
+  font-size: 48px;
+  margin: 0;
+}
+
+.app-description {
+  font-size: 18px;
+  margin-top: 10px;
+  max-width: 600px;
+}
+
+.nav-links {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.nav-links li {
+  display: inline;
+  margin: 0 10px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+}
+
+.nav-links a:hover {
+  color: #007BFF;
+}
