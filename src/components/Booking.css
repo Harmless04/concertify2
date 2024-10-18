@@ -1,0 +1,83 @@
+/* Booking.css */
+.booking-page {
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .concerts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  
+  .concert-card {
+    background-color: #111;
+    border: 1px solid #fff;
+    padding: 20px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 8px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer; /* Change the cursor to indicate interactivity */
+  }
+  
+  /* Hover and 3D effect */
+  .concert-card:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+  }
+  
+  /* 3D effect when the card is clicked or selected */
+  .concert-card:active {
+    transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+  }
+  
+  .concert-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .quantity-input {
+    margin-top: 10px;
+    width: 100%;
+    padding: 5px;
+    background-color: #222;
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 4px;
+  }
+  
+  .book-button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    background-color: #444;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .book-button:hover {
+    background-color: #555;
+  }
+  
+  .ticket-container {
+    border: 1px solid #fff;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #111;
+    border-radius: 8px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  

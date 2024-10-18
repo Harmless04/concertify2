@@ -58,6 +58,8 @@ nav {
   width: 100%;
   padding: 15px 0;
   position: sticky;
+  
+  
   top: 0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
@@ -68,24 +70,29 @@ nav {
   margin: 0;
   display: flex;
   justify-content: center;
+  display: flex;
+  gap: 15px;
 }
 
 .nav-links li {
-  margin: 0 20px;
+  margin: 0
+  \x;
 }
 
 .nav-links a,
-.login-button {
+.login-button , .register-button{
   text-decoration: none;
   color: #f5f5f5; /* Off-white for better readability */
   font-size: 18px;
   padding: 10px 20px;
   border-radius: 5px;
+  
+
   transition: background-color 0.3s ease;
 }
 
 .nav-links a:hover,
-.login-button:hover {
+.login-button, .register-button :hover {
   background-color: #555; /* Lighter gray for hover effect */
 }
 
@@ -97,7 +104,7 @@ nav {
 }
 
 /* Button styles */
-.login-button {
+.login-button , .register-button{
   background-color: #111; /* Very dark gray for a silky button effect */
   border: none;
   cursor: pointer;
