@@ -10,6 +10,16 @@ function Booking() {
   const [loading, setLoading] = useState(true); // To handle loading state
   const [ticketDetails, setTicketDetails] = useState(null); // State to hold ticket details after booking
 
+  // Mapping concert IDs to image file names
+  const concertImages = {
+    1: 'concertify1.png',
+    2: 'concertify2.png',
+    3: 'concertify3.png',
+    4: 'concertify4.png',
+    5: 'concertify5.png',
+    6: 'concertify6.png',
+  };
+
   // Fetch concerts from the database
   useEffect(() => {
     const fetchConcerts = async () => {
@@ -106,10 +116,10 @@ function Booking() {
             <p>Loading concerts...</p>
           ) : concerts.length > 0 ? (
             <div className="concerts-container">
-              {concerts.map((concert) => (
+              {concerts.map((concert, index) => (
                 <div key={concert.id} className="concert-card">
                   <img
-                    src={`/images/${concert.image}`} // Local image path
+                    src={`/images/${concertImages[index + 1]}`} // Map concert to corresponding image
                     alt={`${concert.title} by ${concert.artist}`}
                     className="concert-image"
                   />
