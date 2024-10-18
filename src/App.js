@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import Login from './components/Login';       
+import Login from './components/Login';
 import Register from './components/Register';
-import Booking from './components/Booking';  // Your booking component (ConcertBooking)
+import Booking from './components/Booking';
 import './App.css';
 
 function App() {
   const navigate = useNavigate();
+  
+  // State to track if the user is authenticated
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Redirect to login page
   const handleLoginRedirect = () => {
-    navigate('/login'); // Redirect to the login page when the button is clicked
+    navigate('/login');
+  };
+
+  const handleRegisterRedirect = () => {
+    navigate('/register');
+  };
+
+  // Function to handle successful login/registration
+  const handleAuthentication = () => {
+    setIsAuthenticated(true);
+    navigate('/booking'); // Redirect to booking after authentication
   };
 
   return (
@@ -22,27 +34,33 @@ function App() {
         </p>
       </div>
 
-      {/* Navigation Links */}
       <nav>
         <ul className="nav-links">
           <li>
-            <button onClick={handleLoginRedirect} className="login-button">Login</button> {/* Redirect to Login */}
+            <button onClick={handleLoginRedirect} className="login-button">Login</button>
           </li>
           <li>
-            <Link to="/register">Register</Link>
+            <button onClick={handleRegisterRedirect} className="register-button">Register</button>
           </li>
-          <li>
-            <Link to="/booking">Book Tickets</Link>
-          </li>
+          {isAuthenticated && ( // Show Book Tickets link only if authenticated
+            <li>
+              <Link to="/booking">Book Tickets</Link>
+            </li>
+          )}
         </ul>
       </nav>
 
-      {/* Define Routes */}
-      <Routes>
-        <Route path="/login" element={<Login />} />  {/* Route for the dedicated login page */}
-        <Route path="/register" element={<Register />} />
-        <Route path="/booking" element={<Booking />} /> {/* Route for Booking page */}
-      </Routes>
+      <div className="main-content">
+        <Routes>
+          <Route path="/login" element={<Login onAuthenticate={handleAuthentication} />} />
+          <Route path="/register" element={<Register onAuthenticate={handleAuthentication} />} />
+          <Route path="/booking" element={<Booking />} />
+        </Routes>
+      </div>
+
+      <div className="footer">
+        <p>© 2024 Concertify. All rights reserved.</p>
+      </div>
     </div>
   );
 }

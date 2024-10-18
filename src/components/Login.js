@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import './Login.css'; // Import the CSS styles
 
-const Login = () => {
+const Login = ({ onAuthenticate }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   // Reference to the login form section
   const loginFormRef = useRef(null);
+  const navigate = useNavigate(); // Hook to programmatically navigate
 
   // Automatically scroll to the login form on page load
   useEffect(() => {
@@ -41,7 +43,8 @@ const Login = () => {
         localStorage.setItem('user_name', user.name || ''); // Storing the name if available
 
         alert('Login successful!');
-        window.open('/booking', '_blank'); // Redirect to booking page
+        onAuthenticate(); // Notify the App component about successful authentication
+        navigate('/booking'); // Redirect to the booking page
       } else {
         setError('Incorrect password');
       }
