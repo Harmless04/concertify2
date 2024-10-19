@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Booking from './components/Booking';
@@ -7,6 +7,7 @@ import './App.css';
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
   
   // State to track if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -36,15 +37,20 @@ function App() {
 
       <nav>
         <ul className="nav-links">
-          <li>
-            <button onClick={handleLoginRedirect} className="login-button">Login</button>
-          </li>
-          <li>
-            <button onClick={handleRegisterRedirect} className="register-button">Register</button>
-          </li>
+          {/* Only show the buttons if not on the Booking page */}
+          {location.pathname !== '/booking' && (
+            <>
+              <li>
+                <button onClick={handleLoginRedirect} className="login-button">Login</button>
+              </li>
+              <li>
+                <button onClick={handleRegisterRedirect} className="register-button">Register</button>
+              </li>
+            </>
+          )}
           {isAuthenticated && ( // Show Book Tickets link only if authenticated
             <li>
-              <Link to="/booking">Book Tickets</Link>
+              <Link to="/booking" className="book-tickets-link">Book Tickets</Link>
             </li>
           )}
         </ul>
